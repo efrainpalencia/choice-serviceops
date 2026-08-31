@@ -1,3 +1,19 @@
 spring:
   application:
     name: choice.serviceops
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://127.0.0.1:5433/serviceops}
+    username: ${DB_USERNAME:serviceops}
+    password: ${DB_PASSWORD:serviceops}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+  flyway:
+    enabled: true
+
+server:
+  port: 8081
