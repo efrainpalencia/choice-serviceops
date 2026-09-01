@@ -1,5 +1,9 @@
 package com.choice.serviceops.security.domain;
 
+import com.choice.serviceops.security.persistence.EmailAddressConverter;
+
+import jakarta.persistence.Convert;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -26,8 +30,9 @@ public class User {
     @GeneratedValue
     private UUID id;
 
+    @Convert(converter = EmailAddressConverter.class)
     @Column(nullable = false, unique = true, length = 255)
-    private String email;
+    private EmailAddress email;
 
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
@@ -58,7 +63,7 @@ public class User {
     protected User() {
     }
 
-    public User(String email, String passswordHash, String firstName, String lastName) {
+    public User(EmailAddress email, String passwordHash, String firstName, String lastName) {
         this.email = email;
         this.passwordHash = passwordHash;
         this.firstName = firstName;
@@ -74,7 +79,7 @@ public class User {
         return id;
     }
 
-    public String getEmail() {
+    public EmailAddress getEmail() {
         return email;
     }
 
@@ -95,7 +100,7 @@ public class User {
     }
 
     public Set<Role> getRoles() {
-        return roles;
+        return Set.copyOf(roles);
     }
 
     public Instant getCreatedAt() {
